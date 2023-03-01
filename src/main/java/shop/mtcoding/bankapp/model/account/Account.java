@@ -41,4 +41,12 @@ public class Account {
     public void deposit(Long amount) {
         this.balance = this.balance + amount;
     }
+
+    // 소유자 검사
+    public void checkOwner(Integer principalId) {
+        if (userId != principalId) {
+            throw new CustomException("계좌 소유자가 아닙니다", HttpStatus.FORBIDDEN);
+        }
+    }
+
 }
