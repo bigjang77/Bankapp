@@ -3,6 +3,8 @@ package shop.mtcoding.bankapp.model.account;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
+import shop.mtcoding.bankapp.dto.account.AccountDetailRespDto;
+
 @Mapper
 public interface AccountRepository {
     public int insert(Account account);
@@ -18,5 +20,7 @@ public interface AccountRepository {
     public List<Account> findByUserId(Integer id);
 
     public Account findByNumber(String number);
+
+    public AccountDetailRespDto findByIdWithUser(int id);
 
 }

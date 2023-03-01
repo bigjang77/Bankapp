@@ -32,6 +32,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT * FROM ACCOUNT_TB WHERE number = #{number}
     </select>
 
+    <select id="findByIdWithUser" resultType="shop.mtcoding.bankapp.dto.account.AccountDetailRespDto">
+        select at.id, at.number, at.balance, at.user_id, (select fullname from user_tb
+        ut where ut.id = at.user_id) fullname
+        from account_tb at
+        where at.id = #{id}
+    </select>
+
+
+
 
 
 </mapper>
