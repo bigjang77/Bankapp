@@ -17,7 +17,7 @@ public class UserService {
     public void 회원가입(JoinReqDto joinReqDto) {
         // mybatis는 인수(joinReqDto)로 들어온 오브젝트의 변수명(JoinReqDto에 있는
         // 변수들(username,password,fullname))로 자동 매핑해준다.
-        int result = userRepository.insert(joinReqDto);
+        int result = userRepository.insert(joinReqDto.toModel());
         if (result != 1) {
             throw new CustomException("회원가입 실패",
                     HttpStatus.INTERNAL_SERVER_ERROR);
