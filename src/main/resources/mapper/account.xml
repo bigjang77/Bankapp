@@ -28,6 +28,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         update account_tb set number= #{number}, password= #{password}, balance= #{balance}, user_id= #{userId} where id = #{id}
     </update>
 
+    <select id="findByNumber" resultType="shop.mtcoding.bankapp.model.account.Account">
+        SELECT * FROM ACCOUNT_TB WHERE number = #{number}
+    </select>
+
 
 
 </mapper>
