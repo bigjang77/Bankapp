@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import shop.mtcoding.bankapp.dto.account.AccountDepositReqDto;
 import shop.mtcoding.bankapp.dto.account.AccountSaveReqDto;
 import shop.mtcoding.bankapp.dto.account.AccountWithdrawReqDto;
 import shop.mtcoding.bankapp.handler.ex.CustomException;
@@ -55,5 +57,27 @@ public class AccountService {
 
         // 6. 해당 계좌의 id를 return
         return accountPS.getId();
+    }
+
+    public void 계좌입금(AccountDepositReqDto accountDepositReqDto) {
+        // 1. 계좌존재 여부
+        Account accountPS = accountRepository.findByNumber(accountDepositReqDto.getWAccountNumber());
+        if (accountPS == null) {
+            throw new CustomException("계좌가 없는데?", HttpStatus.BAD_REQUEST);
+        }
+
+        // 2. 입금(balance + 플러스)
+        accountPS.deposit(accountDepositReqDto.getAmount());
+        accountRepository.updateById(accountPS);
+
+        // 3. 입금 트랜잭션 만들기 (히스토리)
+        History history = new History();
+        history.setAmount(accountDepositReqDto.getAmount());
+        history.setWAccountId(null);
+        history.setDAccountId(accountPS.getId());
+        history.setWBalance(null);
+        history.setDBalance(accountPS.getBalance());
+
+        historyRepository.insert(history);
     }
 }
